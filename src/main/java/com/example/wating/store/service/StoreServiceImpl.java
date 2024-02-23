@@ -16,7 +16,12 @@ public class StoreServiceImpl implements StoreService {
   @Override
   @Transactional
   //store 중복 등록 방지 방법 필요
-  public StatusResponseDto addStore(AddStoreRequestDto addStoreRequestDto) {
+  public StatusResponseDto addStore(AddStoreRequestDto addStoreRequestDto,Long userId) {
+
+    if(storeRepository.existsByOwnerId(userId)){
+      throw new IllegalArgumentException("중복된 등록 요청입니다");
+    }
+
     Store store = Store.builder()
         .aboutStore(addStoreRequestDto.aboutStore())
         .storeName(addStoreRequestDto.storeName())

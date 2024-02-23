@@ -21,6 +21,9 @@ public class Store extends TimeStamped {
   private Long id;
 
   @Column
+  private Long ownerId;
+
+  @Column
   private String storeName; //가맹점이름
 
   @Column
