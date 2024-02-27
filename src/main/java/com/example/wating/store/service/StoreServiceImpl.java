@@ -31,4 +31,11 @@ public class StoreServiceImpl implements StoreService {
 
     return new StatusResponseDto(201,"Created");
   }
+
+  @Override
+  public Store findStoreByStoreId(Long storeId) {
+    return storeRepository.findById(storeId).orElseThrow(
+        () -> new IllegalArgumentException("일치하는 정보가 없습니다")
+    );
+  }
 }
