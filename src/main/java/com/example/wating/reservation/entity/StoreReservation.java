@@ -19,7 +19,6 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Getter
 @NoArgsConstructor
 @Entity
-@Document(collection = "mongoTest")
 public class StoreReservation {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
