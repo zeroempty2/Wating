@@ -7,11 +7,13 @@ import com.example.wating.reservation.dto.GetStoreReservationRequestDto;
 import com.example.wating.reservation.dto.StoreReservationAddDto;
 import com.example.wating.reservation.dto.StoreReservationDayResponseDto;
 import com.example.wating.reservation.dto.StoreReservationResponseDto;
+import com.example.wating.reservation.dto.UpdateStoreReservationDto;
 import com.example.wating.reservation.entity.StoreReservation;
 import com.example.wating.reservation.entity.StoreReservationInfo;
 import com.example.wating.reservation.service.interfaces.ReservationService;
 import com.example.wating.store.entity.Store;
 import com.example.wating.store.service.interfaces.StoreService;
+import com.example.wating.user.service.interfaces.UserService;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import java.util.Set;
@@ -24,6 +26,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class ReservationServiceImpl implements ReservationService {
   private final ReservationRepository reservationRepository;
   private final StoreService storeService;
+  private final UserService userService;
 
   @Override
   @Transactional
@@ -61,7 +64,7 @@ public class ReservationServiceImpl implements ReservationService {
   @Transactional
   public StoreReservationDayResponseDto getStoreReservationDayInfo(Long reservationId,
       GetStoreReservationDayRequestDto getStoreReservationDayDto) {
-    StoreReservation storeReservation = getStoreReservationById(reservationId);
+    StoreReservation storeReservation = findStoreReservationById(reservationId);
     Set<StoreReservationInfo> storeReservations = normalizationStoreReservation(storeReservation.getStoreReservationInfos());
     StoreReservationInfo storeReservationInfo = storeReservations.stream()
         .filter(reservation -> reservation.getDays().equals(getStoreReservationDayDto.days()) && reservation.getTimes().equals(getStoreReservationDayDto.time()))
@@ -73,10 +76,21 @@ public class ReservationServiceImpl implements ReservationService {
   }
 
   @Override
-  public StoreReservation getStoreReservationById(Long storeReservationId) {
+  public StoreReservation findStoreReservationById(Long storeReservationId) {
     return reservationRepository.getStoreReservationById(storeReservationId).orElseThrow(
         () -> new IllegalArgumentException("유효하지 않은 Id입니다")
     );
+  }
+
+  @Override
+  @Transactional
+  public StatusResponseDto updateStoreReservation(
+      UpdateStoreReservationDto updateStoreReservationDto, Long storeReservationId, Long userId) {
+    StoreReservation storeReservation = findStoreReservationById(storeReservationId);
+    Store store = storeReservation.getStore();
+    if(!store.getOwnerId().equals(userId)) throw new IllegalArgumentException("권한이 없습니다");
+    storeReservation.update(updateStoreReservationDto.StoreReservationInfos());
+    return new StatusResponseDto(200,"Success");
   }
 
   //일 데이터 정규화

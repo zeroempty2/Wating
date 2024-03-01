@@ -40,4 +40,6 @@ public class ReservationRepositoryQueryImpl implements ReservationRepositoryQuer
         .leftJoin(storeReservation.store)
         .fetchOne());
   }
+
+
 }

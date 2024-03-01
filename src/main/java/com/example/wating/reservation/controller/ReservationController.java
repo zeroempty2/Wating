@@ -8,14 +8,18 @@ import com.example.wating.reservation.dto.GetStoreReservationRequestDto;
 import com.example.wating.reservation.dto.StoreReservationAddDto;
 import com.example.wating.reservation.dto.StoreReservationDayResponseDto;
 import com.example.wating.reservation.dto.StoreReservationResponseDto;
+import com.example.wating.reservation.dto.UpdateStoreReservationDto;
 import com.example.wating.reservation.service.interfaces.ReservationService;
+import com.example.wating.security.UserDetailsImpl;
 import java.nio.charset.StandardCharsets;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -53,5 +57,13 @@ public class ReservationController {
     HttpHeaders headers = new HttpHeaders();
     headers.setContentType(new MediaType("application", "json", StandardCharsets.UTF_8));
     return ResponseEntity.ok().headers(headers).body(storeReservationDayResponseDto);
+  }
+  //예약 정보 변경
+  @PatchMapping("/{storeReservationId}")
+  public ResponseEntity<StatusResponseDto> updateStoreReservation(@PathVariable Long storeReservationId,@RequestBody
+  UpdateStoreReservationDto updateStoreReservationDto, @AuthenticationPrincipal UserDetailsImpl userDetails){
+    StatusResponseDto statusResponseDto = storeReservationService.updateStoreReservation(updateStoreReservationDto,storeReservationId,
+        userDetails.getUserId());
+    return ResponseEntity.status(HttpStatus.OK).body(statusResponseDto);
   }
 }

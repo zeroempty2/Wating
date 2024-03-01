@@ -68,4 +68,11 @@ public class UserServiceImpl implements UserService {
 
     return new StatusResponseDto(200, "OK");
   }
+
+  @Override
+  public User findUserByUserId(Long userId) {
+    return userRepository.findById(userId).orElseThrow(
+        () -> new IllegalArgumentException("유효하지 않은 Id입니다")
+    );
+  }
 }

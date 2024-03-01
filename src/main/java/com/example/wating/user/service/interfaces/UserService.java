@@ -12,4 +12,5 @@ public interface UserService {
 
   StatusResponseDto login(HttpServletResponse response, UserLoginRequestDto request);
 
+  User findUserByUserId(Long userId);
 }
