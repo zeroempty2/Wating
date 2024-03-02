@@ -15,6 +15,7 @@ public interface ReservationService {
   StatusResponseDto addStoreReservationDayInfoMonth(StoreReservationAddDto storeReservationAddDto,Long storeId);
   StoreReservationResponseDto getStoreReservationInfo(Long reservationId, GetStoreReservationRequestDto getStoreReservationRequestDto);
   StoreReservationDayResponseDto getStoreReservationDayInfo(Long reservationId, GetStoreReservationDayRequestDto getStoreReservationDayDto);
+  StatusResponseDto deleteStoreReservation(Long reservationId,Long userId);
   StoreReservation findStoreReservationById(Long storeReservationId);
   StatusResponseDto updateStoreReservation(UpdateStoreReservationDto updateStoreReservationDto,Long storeReservationId, Long userId);
   Set<StoreReservationInfo> normalizationStoreReservation(String storeReservationMonthInfo);

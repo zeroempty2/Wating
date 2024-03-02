@@ -18,6 +18,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -65,5 +66,13 @@ public class ReservationController {
     StatusResponseDto statusResponseDto = storeReservationService.updateStoreReservation(updateStoreReservationDto,storeReservationId,
         userDetails.getUserId());
     return ResponseEntity.status(HttpStatus.OK).body(statusResponseDto);
+  }
+  //예약 정보 삭제
+  @DeleteMapping("/{storeReservationId}")
+  public ResponseEntity<StatusResponseDto> deleteStoreReservation(@PathVariable Long storeReservationId,@AuthenticationPrincipal UserDetailsImpl userDetails){
+    StatusResponseDto statusResponseDto = storeReservationService.deleteStoreReservation(storeReservationId,
+        userDetails.getUserId());
+    return ResponseEntity
+        .status(HttpStatus.OK).body(statusResponseDto);
   }
 }

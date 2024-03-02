@@ -51,7 +51,7 @@ public class ReservationServiceImpl implements ReservationService {
   }
 
   @Override
-  @Transactional
+  @Transactional(readOnly = true)
   public StoreReservationResponseDto getStoreReservationInfo(Long reservationId,
       GetStoreReservationRequestDto getStoreReservationRequestDto) {
     return reservationRepository.getStoreReservationByStoreIdAndDateInfo(reservationId,getStoreReservationRequestDto.years(),
@@ -61,7 +61,7 @@ public class ReservationServiceImpl implements ReservationService {
   }
 
   @Override
-  @Transactional
+  @Transactional(readOnly = true)
   public StoreReservationDayResponseDto getStoreReservationDayInfo(Long reservationId,
       GetStoreReservationDayRequestDto getStoreReservationDayDto) {
     StoreReservation storeReservation = findStoreReservationById(reservationId);
@@ -73,6 +73,16 @@ public class ReservationServiceImpl implements ReservationService {
             () -> new IllegalArgumentException("일치하는 정보가 없습니다")
         );
     return new StoreReservationDayResponseDto(storeReservationInfo.getIsPossible(),storeReservationInfo.getCapacity());
+  }
+
+  @Override
+  @Transactional
+  public StatusResponseDto deleteStoreReservation(Long reservationId, Long userId) {
+    StoreReservation storeReservation = findStoreReservationById(reservationId);
+    Store store = storeReservation.getStore();
+    if(!store.getOwnerId().equals(userId)) throw new IllegalArgumentException("권한이 없습니다");
+    reservationRepository.deleteById(reservationId);
+    return new StatusResponseDto(204,"No Content");
   }
 
   @Override

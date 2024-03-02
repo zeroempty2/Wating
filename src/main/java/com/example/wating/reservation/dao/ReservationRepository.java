@@ -8,4 +8,5 @@ import org.springframework.data.repository.Repository;
 public interface ReservationRepository extends Repository<StoreReservation, Long>,ReservationRepositoryQuery {
   void save(StoreReservation storeReservation);
   Optional<StoreReservation> getStoreReservationById(Long storeReservationId);
+  void deleteById(Long storeReservationId);
 }
