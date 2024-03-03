@@ -1,15 +1,21 @@
 package com.example.wating.review.entity;
 
 
+import com.example.wating.comment.entity.Comment;
 import com.example.wating.review.dto.ReviewRequestDto;
 import com.example.wating.user.entity.User;
 import com.example.wating.util.TimeStamped;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Objects;
+import java.util.Set;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -62,7 +68,8 @@ public class Review extends TimeStamped {
   }
 
   //연관관계
-
+  @OneToMany(mappedBy = "review", cascade = CascadeType.ALL, orphanRemoval = true)
+  private Set<Comment> comments =  new LinkedHashSet<>();
 
   //메서드
   public boolean isWriter(User user,Review review){
