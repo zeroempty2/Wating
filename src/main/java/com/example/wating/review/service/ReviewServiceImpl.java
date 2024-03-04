@@ -35,4 +35,11 @@ public class ReviewServiceImpl implements ReviewService {
     return new ReviewResponseDto(review.getId(), review.getReviewContent(), review.getTasteRating(),
         review.getAtmosphereRating(), review.getServiceRating(), review.getTotalRating(),review.getCreatedAt());
   }
+
+  @Override
+  public Review findReviewByReviewId(Long reviewId) {
+    return reviewRepository.findById(reviewId).orElseThrow(
+        () -> new IllegalArgumentException("유효하지 않은 Id입니다")
+    );
+  }
 }

@@ -10,6 +10,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.validation.constraints.Max;
 import java.util.Objects;
 import lombok.Builder;
 import lombok.Getter;
@@ -29,6 +30,12 @@ public class Comment extends TimeStamped {
   @Column
   private String commentContent;
 
+  @Column(nullable = false)
+  private Integer layer = 0;
+
+  @Column
+  private Long parentId = null;
+
   //생성자
   @Builder
   public Comment(Long userId, Review review, String commentContent){
@@ -36,6 +43,7 @@ public class Comment extends TimeStamped {
     this.review = review;
     this.commentContent = commentContent;
   }
+
 
   //연관관계
   @ManyToOne
@@ -50,5 +58,10 @@ public class Comment extends TimeStamped {
 
   public void update(CommentRequestDto commentRequestDto) {
     this.commentContent = commentRequestDto.commentContents();
+  }
+
+  public void setChildComment(Integer layer,Long parentId){
+    this.layer = layer;
+    this.parentId = parentId;
   }
 }

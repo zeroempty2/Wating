@@ -8,6 +8,7 @@ import com.example.wating.comment.service.interfaces.CommentService;
 import com.example.wating.common.dto.StatusResponseDto;
 import com.example.wating.review.dao.ReviewRepository;
 import com.example.wating.review.entity.Review;
+import com.example.wating.review.service.interfaces.ReviewService;
 import com.example.wating.user.entity.User;
 import com.example.wating.user.service.interfaces.UserService;
 import java.util.List;
@@ -20,18 +21,17 @@ import org.springframework.transaction.annotation.Transactional;
 public class CommentServiceImpl implements CommentService {
   private CommentRepository commentRepository;
   private UserService userService;
-  private ReviewRepository reviewRepository;
+  private ReviewService reviewService;
   @Override
   @Transactional
   public StatusResponseDto addComment(User user, CommentRequestDto commentRequestDto,Long reviewId) {
-    Review review = reviewRepository.findById(reviewId).orElseThrow(
-        () -> new IllegalArgumentException("유효하지 않은 정보입니다")
-    );
+    Review review = reviewService.findReviewByReviewId(reviewId);
     Comment comment = Comment.builder()
         .userId(user.getId())
         .commentContent(commentRequestDto.commentContents())
         .review(review)
         .build();
+    if(commentRequestDto.isChild()) setChildComment(comment, commentRequestDto.parentId());
     commentRepository.save(comment);
     return new StatusResponseDto(200,"OK");
   }
@@ -88,6 +88,10 @@ public class CommentServiceImpl implements CommentService {
     );
   }
 
+  private void setChildComment(Comment childComment, Long parentId){
+    Comment parentComment = findCommentByCommentId(parentId);
+    childComment.setChildComment(parentComment.getLayer() + 1, parentComment.getParentId());
+  }
 
 
 }
