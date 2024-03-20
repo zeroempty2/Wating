@@ -4,9 +4,11 @@ package com.example.wating.review.controller;
 import com.example.wating.common.dto.StatusResponseDto;
 import com.example.wating.review.dto.ReviewRequestDto;
 import com.example.wating.review.dto.ReviewResponseDto;
+import com.example.wating.review.dto.StoreReviewResponseDto;
 import com.example.wating.review.service.ReviewServiceImpl;
 import com.example.wating.security.UserDetailsImpl;
 import java.nio.charset.StandardCharsets;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -43,4 +45,13 @@ public class ReviewController {
     headers.setContentType(new MediaType("application", "json", StandardCharsets.UTF_8));
     return ResponseEntity.ok().headers(headers).body(reviewResponseDto);
   }
+
+  @GetMapping("/review/{storeId}")
+  public ResponseEntity<List<StoreReviewResponseDto>> getStoreReviews(@PathVariable Long storeId) {
+    List<StoreReviewResponseDto> responseDto = reviewService.getStoreReviews(storeId);
+    HttpHeaders headers = new HttpHeaders();
+    headers.setContentType(new MediaType("application", "json", StandardCharsets.UTF_8));
+    return ResponseEntity.ok().headers(headers).body(responseDto);
+  }
+
 }

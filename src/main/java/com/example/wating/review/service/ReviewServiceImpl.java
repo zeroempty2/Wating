@@ -1,5 +1,6 @@
 package com.example.wating.review.service;
 
+import com.example.wating.review.dto.StoreReviewResponseDto;
 import com.example.wating.user.entity.User;
 import com.example.wating.common.dto.StatusResponseDto;
 import com.example.wating.review.dao.ReviewRepository;
@@ -26,6 +27,12 @@ public class ReviewServiceImpl implements ReviewService {
 
     return new StatusResponseDto(201,"Created");
   }
+
+  @Override
+  public List<StoreReviewResponseDto> getStoreReviews(Long storeId) {
+    return reviewRepository.findReviewListByStoreId(storeId);
+  }
+
   @Override
   @Transactional(readOnly = true)
   public ReviewResponseDto getReview(Long reviewId) {
