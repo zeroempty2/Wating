@@ -52,6 +52,9 @@ public class TestDataRunner implements ApplicationRunner {
         .storeId(findStore.getId())
         .reviewContent("리뷰내용")
         .reviewTitle("리뷰제목")
+        .tasteRating(1F)
+        .atmosphereRating(2F)
+        .serviceRating(3F)
         .build();
 
     Review review2 = Review.builder()
@@ -59,6 +62,9 @@ public class TestDataRunner implements ApplicationRunner {
         .storeId(findStore.getId())
         .reviewContent("리뷰내용2")
         .reviewTitle("리뷰제목2")
+        .tasteRating(1F)
+        .atmosphereRating(2F)
+        .serviceRating(3F)
         .build();
 
     reviewRepository.saveAndFlush(review);
@@ -67,7 +73,7 @@ public class TestDataRunner implements ApplicationRunner {
 
   public void makeUsers(){
     int count = 1;
-    for(int i = 0; i < 50; i++){
+    for(int i = 0; i < 10; i++){
       String name = "CUSTOMER" + count;
       User user = User.builder()
           .nickName(name)
