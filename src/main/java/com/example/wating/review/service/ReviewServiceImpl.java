@@ -7,6 +7,7 @@ import com.example.wating.review.dto.ReviewRequestDto;
 import com.example.wating.review.dto.ReviewResponseDto;
 import com.example.wating.review.entity.Review;
 import com.example.wating.review.service.interfaces.ReviewService;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,7 +26,6 @@ public class ReviewServiceImpl implements ReviewService {
 
     return new StatusResponseDto(201,"Created");
   }
-
   @Override
   @Transactional(readOnly = true)
   public ReviewResponseDto getReview(Long reviewId) {

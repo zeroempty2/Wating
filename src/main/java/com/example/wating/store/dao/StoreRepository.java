@@ -6,6 +6,7 @@ import org.springframework.data.repository.Repository;
 
 public interface StoreRepository extends Repository<Store,Long>,StoreRepositoryQuery {
   void save(Store store);
-
+  void saveAndFlush(Store store);
   Optional<Store> findById(Long storeId);
+  Optional<Store> findByOwnerId(Long ownerId);
 }

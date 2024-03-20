@@ -6,6 +6,7 @@ import com.example.wating.review.dto.ReviewRequestDto;
 import com.example.wating.review.dto.ReviewResponseDto;
 import com.example.wating.review.entity.Review;
 import com.example.wating.user.entity.User;
+import java.util.List;
 
 public interface ReviewService {
   StatusResponseDto addReview(User user, ReviewRequestDto reviewRequestDto,Long storeId);

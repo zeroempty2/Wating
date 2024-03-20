@@ -39,6 +39,9 @@ public class Review extends TimeStamped {
   private Long reservationId; //예약ID
 
   @Column
+  private String reviewTitle; //리뷰내용
+
+  @Column
   private String reviewContent; //리뷰내용
 
   @Column
@@ -55,11 +58,11 @@ public class Review extends TimeStamped {
 
 
   @Builder
-  public Review(Long id, Long userId, Long storeId, Long reservationId, String reviewContent, Float tasteRating, Float atmosphereRating, Float serviceRating){
-    this.id = id;
+  public Review(Long userId, Long storeId, Long reservationId, String reviewTitle, String reviewContent, Float tasteRating, Float atmosphereRating, Float serviceRating){
     this.userId = userId;
     this.storeId = storeId;
     this.reservationId = reservationId;
+    this.reviewTitle = reviewTitle;
     this.reviewContent = reviewContent;
     this.tasteRating = tasteRating;
     this.atmosphereRating = atmosphereRating;
