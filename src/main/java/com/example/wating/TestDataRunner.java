@@ -69,6 +69,9 @@ public class TestDataRunner implements ApplicationRunner {
 
     reviewRepository.saveAndFlush(review);
     reviewRepository.saveAndFlush(review2);
+
+    makeComments(reviewRepository.findById(1L).orElseThrow());
+    makeComments(reviewRepository.findById(2L).orElseThrow());
   }
 
   public void makeUsers(){
