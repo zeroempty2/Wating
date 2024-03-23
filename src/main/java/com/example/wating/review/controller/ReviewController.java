@@ -38,7 +38,7 @@ public class ReviewController {
     return ResponseEntity.ok().body(statusResponseDto);
   }
 
-  @GetMapping("/review/{reviewId}")
+  @GetMapping("/{reviewId}")
   public ResponseEntity<ReviewResponseDto> getReview(@PathVariable Long reviewId) {
     ReviewResponseDto reviewResponseDto = reviewService.getReview(reviewId);
     HttpHeaders headers = new HttpHeaders();
@@ -46,7 +46,7 @@ public class ReviewController {
     return ResponseEntity.ok().headers(headers).body(reviewResponseDto);
   }
 
-  @GetMapping("/review/{storeId}")
+  @GetMapping("/store/{storeId}")
   public ResponseEntity<List<StoreReviewResponseDto>> getStoreReviews(@PathVariable Long storeId) {
     List<StoreReviewResponseDto> responseDto = reviewService.getStoreReviews(storeId);
     HttpHeaders headers = new HttpHeaders();
