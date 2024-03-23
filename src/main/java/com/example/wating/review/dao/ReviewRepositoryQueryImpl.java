@@ -39,7 +39,7 @@ public class ReviewRepositoryQueryImpl implements ReviewRepositoryQuery{
                         "likeCount"))
         )
         .from(review)
-        .leftJoin(user).fetchJoin()
+        .leftJoin(user).on(review.userId.eq(user.id))
         .where(review.storeId.eq(storeId))
         .fetch();
   }
