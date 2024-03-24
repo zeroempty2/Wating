@@ -46,6 +46,7 @@ public class TestDataRunner implements ApplicationRunner {
 
     User findUser = userRepository.findByUsername("CUSTOMER1").orElseThrow(() -> new IllegalArgumentException("유효하지 않은 정보입니다"));
     User findUser2 = userRepository.findByUsername("CUSTOMER2").orElseThrow(() -> new IllegalArgumentException("유효하지 않은 정보입니다"));
+    User findUser3 = userRepository.findByUsername("CUSTOMER3").orElseThrow(() -> new IllegalArgumentException("유효하지 않은 정보입니다"));
     Store findStore = storeRepository.findByOwnerId(store.getOwnerId()).orElseThrow(() -> new IllegalArgumentException("유효하지 않은 정보입니다"));
     Review review = Review.builder()
         .userId(findUser.getId())
@@ -67,8 +68,19 @@ public class TestDataRunner implements ApplicationRunner {
         .serviceRating(3F)
         .build();
 
+    Review review3 = Review.builder()
+        .userId(findUser3.getId())
+        .storeId(findStore.getId())
+        .reviewContent("리뷰내용3")
+        .reviewTitle("리뷰제목3")
+        .tasteRating(1F)
+        .atmosphereRating(2F)
+        .serviceRating(3F)
+        .build();
+
     reviewRepository.saveAndFlush(review);
     reviewRepository.saveAndFlush(review2);
+    reviewRepository.saveAndFlush(review3);
 
     makeComments(reviewRepository.findById(1L).orElseThrow());
     makeComments(reviewRepository.findById(2L).orElseThrow());
@@ -89,13 +101,15 @@ public class TestDataRunner implements ApplicationRunner {
   }
 
   public void makeComments(Review review){
+    long count = 1L;
     for(int i = 0; i < 10; i++){
       Comment comment = Comment.builder()
-          .commentContent("코멘트내용")
-          .userId(5L)
+          .commentContent("코멘트내용" + count)
+          .userId(count)
           .review(review)
           .build();
       commentRepository.save(comment);
+      count++;
     }
   }
 
