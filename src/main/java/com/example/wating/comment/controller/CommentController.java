@@ -44,7 +44,7 @@ public class CommentController {
     return ResponseEntity.ok().headers(headers).body(commentResponseDto);
   }
 
-  @GetMapping("/{reviewId}")
+  @GetMapping("/review/{reviewId}")
   public ResponseEntity<List<CommentResponseDto>> getReviewComments(@PathVariable Long reviewId){
     List<CommentResponseDto> commentResponseDtos = commentService.getReviewComments(reviewId);
     HttpHeaders headers = new HttpHeaders();
