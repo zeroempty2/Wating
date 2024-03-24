@@ -1,12 +1,21 @@
 package com.example.wating.comment.dao;
 
 import static com.example.wating.comment.entity.QComment.comment;
+import static com.example.wating.like.entity.commentLike.QCommentLike.commentLike;
+import static com.example.wating.like.entity.reviewLike.QReviewLike.reviewLike;
+import static com.example.wating.review.entity.QReview.review;
 import static com.example.wating.user.entity.QUser.user;
 
 import com.example.wating.comment.dto.CommentResponseDto;
+import com.querydsl.core.types.ExpressionUtils;
 import com.querydsl.core.types.Projections;
+import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.core.types.dsl.NumberPath;
+import com.querydsl.core.types.dsl.Wildcard;
+import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;
@@ -71,14 +80,21 @@ public class CommentRepositoryQueryImpl implements CommentRepositoryQuery {
                 ,comment.commentContent
                 ,user.nickName
                 ,comment.createdAt
-            )
+                , ExpressionUtils.as
+                    (
+                        JPAExpressions.select(Wildcard.count)
+                            .from(commentLike)
+                            .leftJoin(commentLike.comment)
+                            .where(commentLikeEqByCommentId(review.id)),
+                        "likeCount"))
         )
         .from(comment)
-        .leftJoin(user)
-        .where(comment.review.id.eq(reviewId),
-            user.id.eq(comment.userId))
+        .leftJoin(user).on(comment.userId.eq(user.id))
+        .where(comment.review.id.eq(reviewId))
         .fetch();
   }
 
-
+  private BooleanExpression commentLikeEqByCommentId(NumberPath<Long> commentId) {
+    return Objects.nonNull(commentId) ? commentLike.comment.id.eq(commentId) : null;
+  }
 }

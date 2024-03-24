@@ -36,11 +36,7 @@ public class ReviewServiceImpl implements ReviewService {
   @Override
   @Transactional(readOnly = true)
   public ReviewResponseDto getReview(Long reviewId) {
-    Review review =  reviewRepository.findById(reviewId).orElseThrow(
-        () -> new IllegalArgumentException("유효하지 않은 Id입니다")
-    );
-    return new ReviewResponseDto(review.getId(), review.getReviewContent(), review.getTasteRating(),
-        review.getAtmosphereRating(), review.getServiceRating(), review.getTotalRating(),review.getCreatedAt());
+    return reviewRepository.getReviewByReviewId(reviewId);
   }
 
   @Override

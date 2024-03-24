@@ -19,9 +19,9 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @RequiredArgsConstructor
 public class CommentServiceImpl implements CommentService {
-  private CommentRepository commentRepository;
-  private UserService userService;
-  private ReviewService reviewService;
+  private final CommentRepository commentRepository;
+  private final UserService userService;
+  private final ReviewService reviewService;
   @Override
   @Transactional
   public StatusResponseDto addComment(User user, CommentRequestDto commentRequestDto,Long reviewId) {
