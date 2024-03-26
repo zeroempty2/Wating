@@ -3,8 +3,10 @@ package com.example.wating.store.service;
 import com.example.wating.common.dto.StatusResponseDto;
 import com.example.wating.store.dao.StoreRepository;
 import com.example.wating.store.dto.AddStoreRequestDto;
+import com.example.wating.store.dto.StoreResponseDto;
 import com.example.wating.store.entity.Store;
 import com.example.wating.store.service.interfaces.StoreService;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -37,5 +39,11 @@ public class StoreServiceImpl implements StoreService {
     return storeRepository.findById(storeId).orElseThrow(
         () -> new IllegalArgumentException("일치하는 정보가 없습니다")
     );
+  }
+
+  @Override
+  @Transactional
+  public List<StoreResponseDto> getStore() {
+    return storeRepository.getStores();
   }
 }

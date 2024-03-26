@@ -2,7 +2,6 @@ package com.example.wating.comment.dao;
 
 import static com.example.wating.comment.entity.QComment.comment;
 import static com.example.wating.like.entity.commentLike.QCommentLike.commentLike;
-import static com.example.wating.like.entity.reviewLike.QReviewLike.reviewLike;
 import static com.example.wating.review.entity.QReview.review;
 import static com.example.wating.user.entity.QUser.user;
 
@@ -14,6 +13,7 @@ import com.querydsl.core.types.dsl.NumberPath;
 import com.querydsl.core.types.dsl.Wildcard;
 import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import java.beans.Beans;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
