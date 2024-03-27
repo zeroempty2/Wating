@@ -27,6 +27,7 @@ public class TestDataRunner implements ApplicationRunner {
   private final StoreRepository storeRepository;
   private final ReviewRepository reviewRepository;
   private final CommentRepository commentRepository;
+
   @Override
   @Transactional
   public void run(ApplicationArguments args) throws Exception {
@@ -40,9 +41,14 @@ public class TestDataRunner implements ApplicationRunner {
     makeUsers();
 
     Store store = Store.builder().ownerId(user.getId()).storeName("Test").build();
-
+    Store store2 = Store.builder().ownerId(user.getId()).storeName("김가네").build();
+    Store store3 = Store.builder().ownerId(user.getId()).storeName("이가네").build();
+    Store store4 = Store.builder().ownerId(user.getId()).storeName("박가네").build();
     userRepository.saveAndFlush(user);
     storeRepository.saveAndFlush(store);
+    storeRepository.saveAndFlush(store2);
+    storeRepository.saveAndFlush(store3);
+    storeRepository.saveAndFlush(store4);
 
     User findUser = userRepository.findByUsername("CUSTOMER1").orElseThrow(() -> new IllegalArgumentException("유효하지 않은 정보입니다"));
     User findUser2 = userRepository.findByUsername("CUSTOMER2").orElseThrow(() -> new IllegalArgumentException("유효하지 않은 정보입니다"));

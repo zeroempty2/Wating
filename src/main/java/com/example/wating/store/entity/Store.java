@@ -27,14 +27,13 @@ public class Store extends TimeStamped {
   private String storeName; //가맹점이름
 
   @Column
-  private Float starRate; //별점
+  private Float starRate = 0F; //별점
 
   @Column
   private String aboutStore;  //가게소개
 
   @Builder
-  public Store(Long id, String storeName,String aboutStore,Long ownerId) {
-    this.id = id;
+  public Store(String storeName,String aboutStore,Long ownerId) {
     this.storeName = storeName;
     this.aboutStore = aboutStore;
     this.ownerId = ownerId;
