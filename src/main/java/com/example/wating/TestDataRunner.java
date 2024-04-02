@@ -90,6 +90,7 @@ public class TestDataRunner implements ApplicationRunner {
 
     makeComments(reviewRepository.findById(1L).orElseThrow());
     makeComments(reviewRepository.findById(2L).orElseThrow());
+    makeStores(user.getId());
   }
 
   public void makeUsers(){
@@ -115,6 +116,18 @@ public class TestDataRunner implements ApplicationRunner {
           .review(review)
           .build();
       commentRepository.save(comment);
+      count++;
+    }
+  }
+
+  public void makeStores(Long userId){
+    long count = 1L;
+    for(int i = 0; i < 20; i++){
+      Store store = Store.builder()
+          .ownerId(userId)
+          .storeName("TestStore" + count)
+          .build();
+      storeRepository.save(store);
       count++;
     }
   }
