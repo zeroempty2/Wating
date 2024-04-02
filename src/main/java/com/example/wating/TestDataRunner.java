@@ -31,29 +31,13 @@ public class TestDataRunner implements ApplicationRunner {
   @Override
   @Transactional
   public void run(ApplicationArguments args) throws Exception {
-    User user = User.builder()
-        .role(UserRoleEnum.OWNER)
-        .nickName("OWNER1")
-        .username("OWNER1")
-        .password(passwordEncoder.encode("Password!23"))
-        .build();
-
     makeUsers();
 
-    Store store = Store.builder().ownerId(user.getId()).storeName("Test").build();
-    Store store2 = Store.builder().ownerId(user.getId()).storeName("김가네").build();
-    Store store3 = Store.builder().ownerId(user.getId()).storeName("이가네").build();
-    Store store4 = Store.builder().ownerId(user.getId()).storeName("박가네").build();
-    userRepository.saveAndFlush(user);
-    storeRepository.saveAndFlush(store);
-    storeRepository.saveAndFlush(store2);
-    storeRepository.saveAndFlush(store3);
-    storeRepository.saveAndFlush(store4);
-
+    User findOwner = userRepository.findByUsername("OWNER1").orElseThrow(() -> new IllegalArgumentException("유효하지 않은 정보입니다"));
     User findUser = userRepository.findByUsername("CUSTOMER1").orElseThrow(() -> new IllegalArgumentException("유효하지 않은 정보입니다"));
     User findUser2 = userRepository.findByUsername("CUSTOMER2").orElseThrow(() -> new IllegalArgumentException("유효하지 않은 정보입니다"));
     User findUser3 = userRepository.findByUsername("CUSTOMER3").orElseThrow(() -> new IllegalArgumentException("유효하지 않은 정보입니다"));
-    Store findStore = storeRepository.findByOwnerId(store.getOwnerId()).orElseThrow(() -> new IllegalArgumentException("유효하지 않은 정보입니다"));
+    Store findStore = storeRepository.findByOwnerId(findOwner.getId()).orElseThrow(() -> new IllegalArgumentException("유효하지 않은 정보입니다"));
     Review review = Review.builder()
         .userId(findUser.getId())
         .storeId(findStore.getId())
@@ -90,26 +74,45 @@ public class TestDataRunner implements ApplicationRunner {
 
     makeComments(reviewRepository.findById(1L).orElseThrow());
     makeComments(reviewRepository.findById(2L).orElseThrow());
-    makeStores(user.getId());
+
   }
 
   public void makeUsers(){
     int count = 1;
-    for(int i = 0; i < 10; i++){
+    for(int i = 0; i < 20; i++){
       String name = "CUSTOMER" + count;
+
       User user = User.builder()
           .nickName(name)
           .username(name)
           .password(passwordEncoder.encode("Password!23"))
           .build();
-          userRepository.saveAndFlush(user);
+
+      String name2 = "OWNER" + count;
+
+      User user2 = User.builder()
+          .role(UserRoleEnum.OWNER)
+          .nickName(name2)
+          .username(name2)
+          .password(passwordEncoder.encode("Password!23"))
+          .build();
+
+      userRepository.saveAndFlush(user2);
+      userRepository.saveAndFlush(user);
+
+      Store store = Store.builder()
+          .ownerId(userRepository.findByUsername(name2).orElseThrow(() -> new IllegalArgumentException("유효하지 않은 정보입니다")).getId())
+          .storeName("TestStore" + count)
+          .build();
+      storeRepository.save(store);
+
       count++;
     }
   }
 
   public void makeComments(Review review){
     long count = 1L;
-    for(int i = 0; i < 10; i++){
+    for(int i = 0; i < 15; i++){
       Comment comment = Comment.builder()
           .commentContent("코멘트내용" + count)
           .userId(count)
@@ -120,16 +123,5 @@ public class TestDataRunner implements ApplicationRunner {
     }
   }
 
-  public void makeStores(Long userId){
-    long count = 1L;
-    for(int i = 0; i < 20; i++){
-      Store store = Store.builder()
-          .ownerId(userId)
-          .storeName("TestStore" + count)
-          .build();
-      storeRepository.save(store);
-      count++;
-    }
-  }
 
 }
