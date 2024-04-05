@@ -3,6 +3,7 @@ package com.example.wating.store.service;
 import com.example.wating.common.dto.StatusResponseDto;
 import com.example.wating.store.dao.StoreRepository;
 import com.example.wating.store.dto.AddStoreRequestDto;
+import com.example.wating.store.dto.StoreDetailsResponseDto;
 import com.example.wating.store.dto.StorePageDto;
 import com.example.wating.store.dto.StoreResponseDto;
 import com.example.wating.store.entity.Store;
@@ -44,12 +45,19 @@ public class StoreServiceImpl implements StoreService {
   }
 
   @Override
-  @Transactional
+  @Transactional(readOnly = true)
   public Page<StoreResponseDto> getStores(StorePageDto storePageDto) {
     return storeRepository.findAll(storePageDto.toPageable())
         .map(store -> {
           return new StoreResponseDto(store.getId(), store.getStoreName(), store.getStarRate());
         });
 
+  }
+
+  @Override
+  @Transactional(readOnly = true)
+  public StoreDetailsResponseDto getStore(Long storeId) {
+    Store store = findStoreByStoreId(storeId);
+    return new StoreDetailsResponseDto(store.getStoreName(),store.getStarRate(),store.getAboutStore());
   }
 }

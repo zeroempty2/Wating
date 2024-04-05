@@ -12,7 +12,6 @@ import org.springframework.data.domain.Sort;
 
 @Getter
 @AllArgsConstructor
-@Builder
 @NoArgsConstructor
 @Setter
 public class StorePageDto {

@@ -103,6 +103,7 @@ public class TestDataRunner implements ApplicationRunner {
       Store store = Store.builder()
           .ownerId(userRepository.findByUsername(name2).orElseThrow(() -> new IllegalArgumentException("유효하지 않은 정보입니다")).getId())
           .storeName("TestStore" + count)
+          .aboutStore("TestStore" + count + " 입니다")
           .build();
       storeRepository.save(store);
 

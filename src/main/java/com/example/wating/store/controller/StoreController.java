@@ -6,6 +6,7 @@ import com.example.wating.common.dto.StatusResponseDto;
 import com.example.wating.review.controller.ReviewController;
 import com.example.wating.security.UserDetailsImpl;
 import com.example.wating.store.dto.AddStoreRequestDto;
+import com.example.wating.store.dto.StoreDetailsResponseDto;
 import com.example.wating.store.dto.StorePageDto;
 import com.example.wating.store.dto.StoreResponseDto;
 import com.example.wating.store.service.interfaces.StoreService;
@@ -19,9 +20,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -40,11 +43,19 @@ public class StoreController {
   }
 
   @GetMapping
-  public ResponseEntity<Page<StoreResponseDto>> getStores(@ModelAttribute StorePageDto storePageDto){
-    Page<StoreResponseDto> storeList = storeService.getStores(storePageDto);
+  public ResponseEntity<Page<StoreResponseDto>> getStores(@RequestParam int page, @RequestParam int size){
+    Page<StoreResponseDto> storeList = storeService.getStores(new StorePageDto(page,size));
     HttpHeaders headers = new HttpHeaders();
     headers.setContentType(new MediaType("application", "json", StandardCharsets.UTF_8));
     return ResponseEntity.ok().headers(headers).body(storeList);
+  }
+
+  @GetMapping("/{storeId}")
+  public ResponseEntity<StoreDetailsResponseDto> getStore(@PathVariable Long storeId){
+    StoreDetailsResponseDto storeDetailsResponseDto = storeService.getStore(storeId);
+    HttpHeaders headers = new HttpHeaders();
+    headers.setContentType(new MediaType("application", "json", StandardCharsets.UTF_8));
+    return ResponseEntity.ok().headers(headers).body(storeDetailsResponseDto);
   }
 
 }

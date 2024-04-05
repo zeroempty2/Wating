@@ -2,6 +2,7 @@ package com.example.wating.store.service.interfaces;
 
 import com.example.wating.common.dto.StatusResponseDto;
 import com.example.wating.store.dto.AddStoreRequestDto;
+import com.example.wating.store.dto.StoreDetailsResponseDto;
 import com.example.wating.store.dto.StorePageDto;
 import com.example.wating.store.dto.StoreResponseDto;
 import com.example.wating.store.entity.Store;
@@ -14,4 +15,7 @@ public interface StoreService {
   Store findStoreByStoreId(Long storeId);
 
   Page<StoreResponseDto> getStores(StorePageDto storePageDto);
+
+  StoreDetailsResponseDto getStore(Long storeId);
+
 }
