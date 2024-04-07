@@ -51,6 +51,12 @@ public class StoreRepositoryQueryImpl implements StoreRepositoryQuery{
 //
 //    return PageableExecutionUtils.getPage(dtoList, pageable, () -> totalSize);
 //  }
+  private Page<StoreResponseDto> getStoresAndSortByKeyword(){
+
+  }
+  private Page<StoreResponseDto> getStoresAndCutByStarRate(){
+
+  }
 //
 //  private JPAQuery<Long> storeCountQuery() {
 //    return jpaQueryFactory.select(Wildcard.count)

@@ -19,8 +19,24 @@ public class StorePageDto {
 
   int size;
 
+  boolean isAsc;
+
+  boolean hasKeyword;
+
+  String sortBy;
+
+  boolean cutByStarRate;
+
+  int starCut;
+
   public Pageable toPageable() {
-      return PageRequest.of(page, size,
-          Sort.by("createdAt").descending());
+      return Objects.isNull(sortBy) ? PageRequest.of(page, size,
+          Sort.by("createdAt").descending()) : sortBy();
   }
+  public Pageable sortBy(){
+    return isAsc ? PageRequest.of(page, size,
+        Sort.by(sortBy).descending()) : PageRequest.of(page, size,
+        Sort.by(sortBy).ascending());
+  }
+
 }
