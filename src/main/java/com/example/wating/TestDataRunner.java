@@ -79,7 +79,7 @@ public class TestDataRunner implements ApplicationRunner {
 
   public void makeUsers(){
     int count = 1;
-    for(int i = 0; i < 20; i++){
+    for(int i = 0; i < 50; i++){
       String name = "CUSTOMER" + count;
 
       User user = User.builder()
