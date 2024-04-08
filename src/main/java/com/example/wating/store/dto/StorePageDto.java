@@ -21,8 +21,6 @@ public class StorePageDto {
 
   boolean isAsc;
 
-  boolean hasKeyword;
-
   String sortBy;
 
   boolean cutByStarRate;

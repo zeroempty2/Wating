@@ -12,5 +12,5 @@ public interface StoreRepository extends Repository<Store,Long>,StoreRepositoryQ
   void saveAndFlush(Store store);
   Optional<Store> findById(Long storeId);
   Optional<Store> findByOwnerId(Long ownerId);
-  Page<Store> findAll(Pageable pageable);
+//  Page<Store> findAll(Pageable pageable);
 }

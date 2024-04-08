@@ -43,8 +43,8 @@ public class StoreController {
   }
 
   @GetMapping
-  public ResponseEntity<Page<StoreResponseDto>> getStores(@RequestParam int page, @RequestParam int size){
-    Page<StoreResponseDto> storeList = storeService.getStores(new StorePageDto(page,size));
+  public ResponseEntity<Page<StoreResponseDto>> getStores(StorePageDto storePageDto){
+    Page<StoreResponseDto> storeList = storeService.getStores(storePageDto);
     HttpHeaders headers = new HttpHeaders();
     headers.setContentType(new MediaType("application", "json", StandardCharsets.UTF_8));
     return ResponseEntity.ok().headers(headers).body(storeList);
