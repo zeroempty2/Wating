@@ -47,7 +47,7 @@ public class StoreServiceImpl implements StoreService {
   @Override
   @Transactional(readOnly = true)
   public Page<StoreResponseDto> getStores(StorePageDto storePageDto) {
-    return findAllStores(storePageDto);
+    return storeRepository.getStores(storePageDto);
 
   }
   @Override
